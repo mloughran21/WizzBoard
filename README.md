@@ -1,4 +1,4 @@
-# 🎯 WhiteBoardo - AI Whiteboard Assistant
+# 🎯 WizzBoard - AI Whiteboard Assistant
 
 A Flask web application that uses your MacBook's webcam to capture whiteboard content and leverages Google Gemini AI to analyze, summarize, and suggest next steps for your notes and project plans.
 
@@ -25,7 +25,7 @@ A Flask web application that uses your MacBook's webcam to capture whiteboard co
 
 1. **Clone the repository**
    ```bash
-   cd WhiteBoardo
+   cd WizzBoard
    ```
 
 2. **Create a virtual environment**
@@ -69,7 +69,7 @@ A Flask web application that uses your MacBook's webcam to capture whiteboard co
 ## 🛠️ Project Structure
 
 ```
-WhiteBoardo/
+WizzBoard/
 ├── app.py                  # Flask application backend
 ├── templates/
 │   └── index.html         # Main HTML template
