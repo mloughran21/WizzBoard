@@ -36,6 +36,11 @@
                         <span class="btn-icon">⏹</span>
                         Stop Camera
                     </button>
+                    <label for="uploadInput" class="btn btn-upload">
+                        <span class="btn-icon">📁</span>
+                        Upload Image
+                    </label>
+                    <input type="file" id="uploadInput" accept="image/*" style="display: none;">
                 </div>
 
                 <div id="status" class="status"></div>
@@ -54,13 +59,13 @@
 
                 <div class="loading hidden" id="loading">
                     <div class="spinner"></div>
-                    <p>Analyzing your whiteboard with Google Gemini...</p>
+                    <p>Reading whiteboard with Gemini and analyzing with GPT-4...</p>
                 </div>
             </div>
         </main>
 
         <footer>
-            <p>Powered by Google Gemini AI</p>
+            <p>Powered by Google Gemini AI + OpenAI GPT-4</p>
         </footer>
     </div>
 

@@ -4,6 +4,7 @@ const canvas = document.getElementById('canvas');
 const startBtn = document.getElementById('startBtn');
 const captureBtn = document.getElementById('captureBtn');
 const stopBtn = document.getElementById('stopBtn');
+const uploadInput = document.getElementById('uploadInput');
 const status = document.getElementById('status');
 const loading = document.getElementById('loading');
 const capturedImageContainer = document.getElementById('capturedImageContainer');
@@ -66,30 +67,51 @@ stopBtn.addEventListener('click', () => {
     }
 });
 
-// Capture and analyze
-captureBtn.addEventListener('click', async () => {
+// Handle image upload
+uploadInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        showStatus('Please upload a valid image file', 'error');
+        return;
+    }
+    
     try {
-        // Set canvas dimensions to match video
-        canvas.width = webcam.videoWidth;
-        canvas.height = webcam.videoHeight;
+        showStatus('Processing uploaded image...', 'info');
         
-        // Draw current frame to canvas
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(webcam, 0, 0);
+        // Read file as data URL
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const imageData = e.target.result;
+            
+            // Display uploaded image
+            capturedImage.src = imageData;
+            capturedImageContainer.classList.remove('hidden');
+            
+            // Analyze the image
+            await analyzeImage(imageData);
+        };
         
-        // Show capture flash effect
-        overlay.classList.remove('hidden');
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-        }, 300);
+        reader.onerror = () => {
+            showStatus('Error reading file', 'error');
+        };
         
-        // Get image as base64
-        const imageData = canvas.toDataURL('image/jpeg', 0.9);
+        reader.readAsDataURL(file);
         
-        // Display captured image
-        capturedImage.src = imageData;
-        capturedImageContainer.classList.remove('hidden');
+        // Reset input
+        event.target.value = '';
         
+    } catch (err) {
+        showStatus('Error processing image: ' + err.message, 'error');
+        console.error('Error:', err);
+    }
+});
+
+// Analyze image function (used by both capture and upload)
+async function analyzeImage(imageData) {
+    try {
         // Show loading
         loading.classList.remove('hidden');
         analysisContainer.classList.add('hidden');
@@ -121,6 +143,40 @@ captureBtn.addEventListener('click', async () => {
     } catch (err) {
         loading.classList.add('hidden');
         showStatus('Error analyzing image: ' + err.message, 'error');
+        console.error('Error:', err);
+    }
+}
+
+// Capture and analyze
+captureBtn.addEventListener('click', async () => {
+    try {
+        // Set canvas dimensions to match video
+        canvas.width = webcam.videoWidth;
+        canvas.height = webcam.videoHeight;
+        
+        // Draw current frame to canvas
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(webcam, 0, 0);
+        
+        // Show capture flash effect
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+        }, 300);
+        
+        // Get image as base64
+        const imageData = canvas.toDataURL('image/jpeg', 0.9);
+        
+        // Display captured image
+        capturedImage.src = imageData;
+        capturedImageContainer.classList.remove('hidden');
+        
+        // Analyze the image
+        await analyzeImage(imageData);
+        
+    } catch (err) {
+        loading.classList.add('hidden');
+        showStatus('Error capturing image: ' + err.message, 'error');
         console.error('Error:', err);
     }
 });

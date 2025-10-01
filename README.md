@@ -1,25 +1,30 @@
 # 🎯 WizzBoard - AI Whiteboard Assistant
 
-A Flask web application that uses your MacBook's webcam to capture whiteboard content and leverages Google Gemini AI to analyze, summarize, and suggest next steps for your notes and project plans.
+A Flask web application that uses your MacBook's webcam to capture whiteboard content. It uses Google Gemini AI for vision (reading the whiteboard) and GPT-4 for deep analysis, providing comprehensive summaries, action items, and strategic recommendations for your notes and project plans.
 
 ## ✨ Features
 
 - 📹 **Live Webcam Feed**: Access your MacBook's webcam directly from the browser
 - 📸 **Image Capture**: Capture high-quality snapshots of your whiteboard
-- 🤖 **AI Analysis**: Powered by Google Gemini to:
-  - Summarize whiteboard content
-  - Extract key points and action items
-  - Identify tasks and to-dos
-  - Suggest next steps and recommendations
-  - Provide organization tips
+- 📁 **Image Upload**: Upload existing whiteboard photos for analysis
+- 🤖 **Dual AI Analysis**: 
+  - **Gemini Vision**: Extracts and reads all content from the whiteboard
+  - **GPT-4 Analysis**: Provides deep strategic analysis including:
+    - Content summaries
+    - Key points and concepts
+    - Action items and to-dos
+    - Next steps and priorities
+    - Strategic recommendations
+    - Potential challenges and risks
 - 🎨 **Modern UI**: Beautiful, responsive interface with dark mode
-- ⚡ **Real-time Processing**: Fast image capture and analysis
+- ⚡ **Real-time Processing**: Fast image capture and dual-AI analysis
 
 ## 📋 Prerequisites
 
 - Python 3.8 or higher
 - MacBook with webcam
 - Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
+- OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
 
 ## 🚀 Installation
 
@@ -44,9 +49,10 @@ A Flask web application that uses your MacBook's webcam to capture whiteboard co
    cp .env.example .env
    ```
    
-   Edit `.env` and add your Google Gemini API key:
+   Edit `.env` and add your API keys:
    ```
-   GEMINI_API_KEY=your_actual_api_key_here
+   GEMINI_API_KEY=your_gemini_api_key_here
+   OPENAI_API_KEY=your_openai_api_key_here
    ```
 
 ## 🎮 Usage
@@ -60,11 +66,18 @@ A Flask web application that uses your MacBook's webcam to capture whiteboard co
    Navigate to `http://localhost:5000`
 
 3. **Use the application**
+   
+   **Option 1: Live Camera Capture**
    - Click "Start Camera" to activate your webcam
    - Position your whiteboard in view
-   - Click "Capture & Analyze" to take a snapshot and send it to Gemini AI
-   - View the AI analysis with summaries, key points, and next steps
+   - Click "Capture & Analyze" to take a snapshot
    - Click "Stop Camera" when done
+   
+   **Option 2: Upload Image**
+   - Click "Upload Image" to select an existing whiteboard photo
+   - The image will be automatically analyzed
+   
+   View the dual AI analysis with summaries, key points, action items, and strategic recommendations!
 
 ## 🛠️ Project Structure
 
@@ -83,12 +96,20 @@ WizzBoard/
 └── README.md              # This file
 ```
 
-## 🔑 Getting a Gemini API Key
+## 🔑 Getting API Keys
 
+### Gemini API Key
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Sign in with your Google account
 3. Click "Create API Key"
 4. Copy the key and add it to your `.env` file
+
+### OpenAI API Key
+1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Sign in or create an account
+3. Click "Create new secret key"
+4. Copy the key and add it to your `.env` file
+5. Note: GPT-4 access requires a paid OpenAI account
 
 ## 🎨 Features in Detail
 
@@ -98,13 +119,19 @@ WizzBoard/
 - Flash effect on capture
 - Browser-native media access (no external dependencies)
 
-### AI Analysis
-The Gemini AI model provides:
-- **Content Summary**: Overview of whiteboard content
-- **Key Points**: Main ideas and concepts
-- **Action Items**: Tasks and to-dos
-- **Next Steps**: Recommendations for progression
-- **Organization Tips**: Suggestions for better structure
+### Dual AI Analysis
+**Step 1 - Gemini Vision**: Reads and extracts all content from the whiteboard image
+- Transcribes handwritten and printed text
+- Describes diagrams and visual elements
+- Captures structure and relationships
+
+**Step 2 - GPT-4 Strategic Analysis**: Analyzes the extracted content to provide:
+- **Content Summary**: Clear overview of the main topic
+- **Key Points**: Organized important ideas and concepts
+- **Action Items**: Specific tasks that need to be done
+- **Next Steps**: Logical priorities for moving forward
+- **Strategic Recommendations**: Insights on organization and approach
+- **Potential Challenges**: Risks, dependencies, and blockers to consider
 
 ### User Interface
 - Dark mode design for reduced eye strain
